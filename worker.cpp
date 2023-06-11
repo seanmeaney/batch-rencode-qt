@@ -52,11 +52,24 @@ bool Worker::startFFmpeg(const QString& path, const QStringList& args, bool forw
 
 bool Worker::findFFmpegPath(){
     QString path(std::getenv("PATH"));
+
+    #ifdef _WIN32
+    QStringList pathSeperated = path.split(";");
+    #else
     QStringList pathSeperated = path.split(":");
+    #endif
+
     for (QString& s : pathSeperated){
+        #ifdef _WIN32
+        if (QDir(s).entryList().contains("ffmpeg.exe")){
+            ffPath = s;
+        }
+        #else
         if (QDir(s).entryList().contains("ffmpeg")){
             ffPath = s;
         }
+        #endif
+
     }
     return !ffPath.isNull();
 }
