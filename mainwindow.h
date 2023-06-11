@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "worker.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +18,24 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Worker* worker;
+
+    QString outDir;
+    QString inDir;
+    QString crf;
+    QString audioBitrate;
+    QString vidEncoder;
+    QString audioEncoder;
+    QString preset;
+    bool fastStart;
+    bool overwriteVids;
+
+    void populateEncoders();
+
+private slots:
+
+    void on_choosePath_released();
+    void on_chooseOutPath_released();
+
 };
 #endif // MAINWINDOW_H
