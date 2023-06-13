@@ -5,10 +5,11 @@
 #include "worker.h"
 
 
+
 class Codec
 {
 public:
-    Codec(const QString&,const Worker*, int);
+    Codec(const QString& codecName, int codecType);
 
     bool isVideoCodec();
     bool supportsCRF();
@@ -21,14 +22,12 @@ private:
 
     void init();
 
-    QString codecName;
+    QString name;
+    int type;
     const Worker* w;
-    int codecType;
 
     bool crf;
     bool preset;
-
-
 
 };
 
