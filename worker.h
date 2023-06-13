@@ -19,6 +19,9 @@ public:
 
     const QStringList& getAudioEncoders() { return codecs.second; }
     const QStringList& getVideoEncoders() { return codecs.first; }
+    const QString& getFFPath() { return ffPath; }
+
+    bool getCodecInfo();
 
 
 private:
