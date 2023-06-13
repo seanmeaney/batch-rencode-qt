@@ -5,7 +5,6 @@
 #include "worker.h"
 
 
-
 class Codec
 {
 public:
@@ -24,11 +23,10 @@ private:
 
     QString name;
     int type;
-    const Worker* w;
+    Worker* w;
 
     bool crf;
     bool preset;
-
 };
 
 #endif // CODEC_H

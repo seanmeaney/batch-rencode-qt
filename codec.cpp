@@ -1,10 +1,9 @@
 #include "codec.h"
 
-Codec::Codec(const QString& codecName_, Worker* worker, int codecType_)
+Codec::Codec(const QString& codecName, int codecType)
 {
-    codecName = codecName_;
-    w = worker;
-    codecType = codecType_;
+    name = codecName;
+    type = codecType;
     init();
 }
 
