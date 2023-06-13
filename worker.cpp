@@ -19,7 +19,7 @@ void Worker::init(){
 }
 
 const QList<Codec> Worker::getSupportedCodecs(){
-    startFFmpeg(ffPath.append("/ffmpeg"), QStringList("-encoders"));
+    startFFmpeg(ffPath, QStringList("-encoders"));
     return parseSupportedCodecs(QString(ffProcess.readAllStandardOutput()));
 }
 
@@ -40,10 +40,10 @@ const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
 
 bool Worker::addCodecFeatures(){
     for (Codec c: codecs){
-        QStringList t = {"-h", "-encoder=", c.getName()};
+        QStringList t = {"-h", QString("-encoder=").append(c.getName())};
 //        QString argtemp("-h -encoder=");
 //        argtemp.append(c.getName());
-        startFFmpeg(ffPath.append("/ffmpeg"), QStringList(t));
+        startFFmpeg(ffPath, t);
         QString output(ffProcess.readAllStandardOutput());
         int tmemt = 0;
     }
@@ -70,10 +70,12 @@ bool Worker::findFFmpegPath(){
         #ifdef _WIN32
         if (QDir(s).entryList().contains("ffmpeg.exe")){
             ffPath = s;
+            ffPath.append("\ffmpeg.exe");
         }
         #else
         if (QDir(s).entryList().contains("ffmpeg")){
             ffPath = s;
+            ffPath.append("/ffmpeg");
         }
         #endif
 
