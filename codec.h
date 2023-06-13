@@ -2,7 +2,6 @@
 #define CODEC_H
 
 #include <QString>
-#include "worker.h"
 
 
 class Codec
@@ -10,6 +9,9 @@ class Codec
 public:
     Codec(const QString& codecName, int codecType);
 
+
+    const QString& getName() { return name; }
+    int getType() { return type; }
     bool isVideoCodec();
     bool supportsCRF();
     bool supportsPreset();
@@ -23,7 +25,6 @@ private:
 
     QString name;
     int type;
-    Worker* w;
 
     bool crf;
     bool preset;

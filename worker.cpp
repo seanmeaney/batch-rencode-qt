@@ -1,46 +1,53 @@
 #include "worker.h"
 
 #include <iostream>
-//#include <QList>
 #include <QDir>
-#include <QPair>
 
+static QString ffPath = nullptr;
 
 Worker::Worker()
 {
-    ffPath = nullptr;
     init();
 }
 
 void Worker::init(){
-    if (findFFmpegPath()){
+    if (ffPath == nullptr && findFFmpegPath()){
         codecs = getSupportedCodecs();
     } else{
         qDebug() << "Unable to find ffmpeg (make sure it is in path)";
     }
 }
 
-const QPair<QStringList, QStringList> Worker::getSupportedCodecs(){
+const QList<Codec> Worker::getSupportedCodecs(){
     startFFmpeg(ffPath.append("/ffmpeg"), QStringList("-encoders"));
     return parseSupportedCodecs(QString(ffProcess.readAllStandardOutput()));
 }
 
-const QPair<QStringList, QStringList> Worker::parseSupportedCodecs(const QString &wallOfText){
-    QPair<QStringList, QStringList> codecs;
+const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
     QStringList lines = wallOfText.split("\n ");
     QStringList lineSeperated;
     QString line;
     //first 10 lines are formatting info
     for (int i=10; i < lines.size(); i++){
         line = lines[i];
-        lineSeperated = line.split(" ");
-        if (line[0] == "V"){    //video codec
-            codecs.first.append(lineSeperated[1]);
-        } else if (line[0] == "A"){ //audio codec
-            codecs.second.append(lineSeperated[1]);
-        }
+        lineSeperated = line.split(" ");        //video codec 1 else 2
+        codecs.append(Codec(lineSeperated[1],(line[0] == "V")? 1 : 2));
     }
+    if (!addCodecFeatures())
+        qDebug() << "error parsing codec feature text";
     return codecs;
+}
+
+bool Worker::addCodecFeatures(){
+    for (Codec c: codecs){
+        QStringList t = {"-h", "-encoder=", c.getName()};
+//        QString argtemp("-h -encoder=");
+//        argtemp.append(c.getName());
+        startFFmpeg(ffPath.append("/ffmpeg"), QStringList(t));
+        QString output(ffProcess.readAllStandardOutput());
+        int tmemt = 0;
+    }
+    return 1;
 }
 
 bool Worker::startFFmpeg(const QString& path, const QStringList& args, bool forwardOutput){

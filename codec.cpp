@@ -10,3 +10,15 @@ Codec::Codec(const QString& codecName, int codecType)
 void Codec::init(){
 
 }
+
+//void Codec::findSupportedAttributes(){
+
+//}
+
+
+//bool isVideoCodec();
+//bool supportsCRF();
+//bool supportsPreset();
+
+
+//bool isAudioCodec();
