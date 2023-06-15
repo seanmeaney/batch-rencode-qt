@@ -17,6 +17,14 @@ void Worker::init(){
         qDebug() << "Unable to find ffmpeg (make sure it is in path)";
     }
 }
+Codec* Worker::getCodec(const QString& name){
+    for (Codec& c: codecs){
+        if (c.getName() == name)
+            return &c;
+    }
+    //temp should make a sentinel value
+    return &codecs.first();
+}
 
 const QStringList& Worker::getAudioEncoders(){
     return audioEncoders;
@@ -36,8 +44,8 @@ bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOf
 
 const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
     QStringList lines = wallOfText.split("\n ");
-    QStringList lineSeperated;
     QString line;
+    QStringList lineSeperated;
     //first 10 lines are formatting info
     for (int i=10; i < lines.size(); i++){
         line = lines[i];
@@ -58,8 +66,6 @@ const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
 bool Worker::addCodecFeatures(){
     for (Codec c: codecs){
         QStringList t = {"-h", QString("encoder=").append(c.getName())};
-//        QString argtemp("-h -encoder=");
-//        argtemp.append(c.getName());
         startFFmpeg(ffPath, t);
         QString output(ffProcess.readAllStandardOutput());
         parseExtraCodecData(c.getName(), output);

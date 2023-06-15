@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
     populateEncoders();
     audioEncoder = nullptr;
     vidEncoder = nullptr;
-    //    connect(ui->choosePath, &QPushButton::released, this, &MainWindow::choosePath);
 }
 
 void MainWindow::populateEncoders(){
@@ -34,11 +33,11 @@ void MainWindow::populateEncoders(){
 }
 
 void MainWindow::on_audioEncoders_currentTextChanged(const QString &text){
-    audioEncoder = new Codec(text, 2);
+    audioEncoder = worker->getCodec(text);
 }
 
 void MainWindow::on_videoEncoders_currentTextChanged(const QString &text){
-    vidEncoder = new Codec(text, 1);
+    vidEncoder = worker->getCodec(text);
 }
 
 void MainWindow::on_onlyRecomended_released(){

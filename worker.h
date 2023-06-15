@@ -19,6 +19,7 @@ public:
     const QList<Codec>& getCodecs() { return codecs; }
     const QStringList& getAudioEncoders();
     const QStringList& getVideoEncoders();
+    Codec* getCodec(const QString& name);
 
 
 private:
