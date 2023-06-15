@@ -17,8 +17,8 @@ public:
     Worker();
 
     const QList<Codec>& getCodecs() { return codecs; }
-    const QList<Codec&> getAudioEncoders();
-    const QList<Codec&> getVideoEncoders();
+    const QStringList& getAudioEncoders();
+    const QStringList& getVideoEncoders();
 
 
 private:
@@ -34,6 +34,8 @@ private:
     QProcess ffProcess;
 
     QList<Codec> codecs;
+    QStringList audioEncoders;
+    QStringList videoEncoders;
 
 };
 

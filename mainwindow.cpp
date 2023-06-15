@@ -23,6 +23,7 @@ void MainWindow::populateEncoders(){
     ui->audioEncoders->clear();
     ui->videoEncoders->clear();
 
+    //kinda hacky but fine for now
     if (ui->onlyRecomended->isChecked()){
         ui->audioEncoders->addItems(recommendedAudioCodecs.toSet().intersect(worker->getAudioEncoders().toSet()).toList());
         ui->videoEncoders->addItems(recommendedVideoCodecs.toSet().intersect(worker->getVideoEncoders().toSet()).toList());

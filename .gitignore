@@ -2,3 +2,4 @@ Makefile
 batch_rencode_vids
 *.user
 *.o
+.vscode

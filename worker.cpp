@@ -18,21 +18,11 @@ void Worker::init(){
     }
 }
 
-const QList<Codec&> Worker::getAudioEncoders(){
-    QList<Codec &> t;
-    for (Codec &c : codecs){
-        if (c.getType() == 2)
-            t.append(c);
-    }
-    return t;
+const QStringList& Worker::getAudioEncoders(){
+    return audioEncoders;
 }
-const QList<Codec&> Worker::getVideoEncoders(){
-    QList<Codec &> t;
-    for (Codec &c : codecs){
-        if (c.getType() == 1)
-            t.append(c);
-    }
-    return t;
+const QStringList& Worker::getVideoEncoders(){
+    return videoEncoders;
 }
 
 const QList<Codec> Worker::getSupportedCodecs(){
@@ -52,7 +42,13 @@ const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
     for (int i=10; i < lines.size(); i++){
         line = lines[i];
         lineSeperated = line.split(" ");        //video codec 1 else 2
-        codecs.append(Codec(lineSeperated[1],(line[0] == "V")? 1 : 2));
+        if (line[0] == "V"){
+            codecs.append(Codec(lineSeperated[1],1));
+            videoEncoders.append(lineSeperated[1]);
+        } else if (line[0] == "A"){
+            codecs.append(Codec(lineSeperated[1],2));
+            audioEncoders.append(lineSeperated[1]);
+        }
     }
     if (!addCodecFeatures())
         qDebug() << "error parsing codec feature text";
