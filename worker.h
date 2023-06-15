@@ -17,6 +17,8 @@ public:
     Worker();
 
     const QList<Codec>& getCodecs() { return codecs; }
+    const QList<Codec&> getAudioEncoders();
+    const QList<Codec&> getVideoEncoders();
 
 
 private:
@@ -25,6 +27,7 @@ private:
     bool findFFmpegPath();
     const QList<Codec> getSupportedCodecs();
     const QList<Codec> parseSupportedCodecs(const QString& wallOfText);
+    bool parseExtraCodecData(const QString& codecName, const QString& wallOfText);
     bool addCodecFeatures();
     bool startFFmpeg(const QString&, const QStringList&, bool = false);
 

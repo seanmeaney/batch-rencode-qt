@@ -23,13 +23,13 @@ void MainWindow::populateEncoders(){
     ui->audioEncoders->clear();
     ui->videoEncoders->clear();
 
-//    if (ui->onlyRecomended->isChecked()){
-//        ui->audioEncoders->addItems(recommendedAudioCodecs.toSet().intersect(worker->getAudioEncoders().toSet()).toList());
-//        ui->videoEncoders->addItems(recommendedVideoCodecs.toSet().intersect(worker->getVideoEncoders().toSet()).toList());
-//    } else {
-//        ui->audioEncoders->addItems(worker->getAudioEncoders());
-//        ui->videoEncoders->addItems(worker->getVideoEncoders());
-//    }
+    if (ui->onlyRecomended->isChecked()){
+        ui->audioEncoders->addItems(recommendedAudioCodecs.toSet().intersect(worker->getAudioEncoders().toSet()).toList());
+        ui->videoEncoders->addItems(recommendedVideoCodecs.toSet().intersect(worker->getVideoEncoders().toSet()).toList());
+    } else {
+        ui->audioEncoders->addItems(worker->getAudioEncoders());
+        ui->videoEncoders->addItems(worker->getVideoEncoders());
+    }
 }
 
 void MainWindow::on_audioEncoders_currentTextChanged(const QString &text){

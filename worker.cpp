@@ -18,9 +18,30 @@ void Worker::init(){
     }
 }
 
+const QList<Codec&> Worker::getAudioEncoders(){
+    QList<Codec &> t;
+    for (Codec &c : codecs){
+        if (c.getType() == 2)
+            t.append(c);
+    }
+    return t;
+}
+const QList<Codec&> Worker::getVideoEncoders(){
+    QList<Codec &> t;
+    for (Codec &c : codecs){
+        if (c.getType() == 1)
+            t.append(c);
+    }
+    return t;
+}
+
 const QList<Codec> Worker::getSupportedCodecs(){
     startFFmpeg(ffPath, QStringList("-encoders"));
     return parseSupportedCodecs(QString(ffProcess.readAllStandardOutput()));
+}
+
+bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOfText){
+    return false;
 }
 
 const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
@@ -40,12 +61,12 @@ const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
 
 bool Worker::addCodecFeatures(){
     for (Codec c: codecs){
-        QStringList t = {"-h", QString("-encoder=").append(c.getName())};
+        QStringList t = {"-h", QString("encoder=").append(c.getName())};
 //        QString argtemp("-h -encoder=");
 //        argtemp.append(c.getName());
         startFFmpeg(ffPath, t);
         QString output(ffProcess.readAllStandardOutput());
-        int tmemt = 0;
+        parseExtraCodecData(c.getName(), output);
     }
     return 1;
 }
