@@ -49,7 +49,7 @@ const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
     //first 10 lines are formatting info
     for (int i=10; i < lines.size(); i++){
         line = lines[i];
-        lineSeperated = line.split(" ");        //video codec 1 else 2
+        lineSeperated = line.split(" ");
         if (line[0] == "V"){
             codecs.append(Codec(lineSeperated[1],1));
             videoEncoders.append(lineSeperated[1]);

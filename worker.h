@@ -21,6 +21,8 @@ public:
     const QStringList& getVideoEncoders();
     Codec* getCodec(const QString& name);
 
+    bool startConversion(const QString & in, const QString & out, Codec* audioCodec, Codec* videoCodec);
+
 
 private:
 
