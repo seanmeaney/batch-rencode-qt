@@ -17,7 +17,7 @@
    <widget class="QPushButton" name="startConversion">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>150</x>
       <y>530</y>
       <width>83</width>
       <height>25</height>
@@ -373,16 +373,22 @@
     </property>
    </widget>
    <widget class="QCheckBox" name="onlyRecomended">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>350</x>
       <y>530</y>
-      <width>241</width>
+      <width>421</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Show only recomended codecs</string>
+     <string>Show only recomended codecs (expanded disabled for now)</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
     <property name="checked">
      <bool>true</bool>

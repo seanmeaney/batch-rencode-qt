@@ -39,6 +39,13 @@ const QList<Codec> Worker::getSupportedCodecs(){
 }
 
 bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOfText){
+    QStringList split = wallOfText.split("\n");
+    for (QString& c : split){
+        //remove leading whitespace while leaving internal whitespace
+        while (c[0] == " "){
+            c.remove(0,1);
+        }
+    }
     return false;
 }
 
@@ -65,10 +72,13 @@ const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
 
 bool Worker::addCodecFeatures(){
     for (Codec c: codecs){
-        QStringList t = {"-h", QString("encoder=").append(c.getName())};
-        startFFmpeg(ffPath, t);
-        QString output(ffProcess.readAllStandardOutput());
-        parseExtraCodecData(c.getName(), output);
+        //temporary to just format the important ones
+        if (recommendedAudioCodecs.contains(c.getName()) || recommendedVideoCodecs.contains(c.getName())){
+            QStringList t = {"-h", QString("encoder=").append(c.getName())};
+            startFFmpeg(ffPath, t);
+            QString output(ffProcess.readAllStandardOutput());
+            parseExtraCodecData(c.getName(), output);
+        }
     }
     return 1;
 }
