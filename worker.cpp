@@ -38,6 +38,13 @@ const QList<Codec> Worker::getSupportedCodecs(){
     return parseSupportedCodecs(QString(ffProcess.readAllStandardOutput()));
 }
 
+const QStringList Worker::findVideos(const QString& path){
+    QDir dir(path);
+    dir.setNameFilters(searchFileExentions);
+    return dir.entryList();
+}
+
+
 bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOfText){
     QStringList split = wallOfText.split("\n");
     for (QString& c : split){
@@ -47,6 +54,10 @@ bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOf
         }
     }
     return false;
+}
+
+bool Worker::startConversion(const QString & in, const QString & out, Codec* audioCodec, Codec* videoCodec){
+    return 0;
 }
 
 const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){

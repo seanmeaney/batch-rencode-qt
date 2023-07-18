@@ -25,6 +25,7 @@ private:
 
     QString outDir;
     QString inDir;
+    QStringList inVids;
 //    QString crf;
 //    QString audioBitrate;
 //    QString preset;
@@ -40,6 +41,7 @@ private slots:
     void on_onlyRecomended_released();
     void on_audioEncoders_currentTextChanged(const QString &text);
     void on_videoEncoders_currentTextChanged(const QString &text);
+    void on_startConversion_released();
 
 };
 #endif // MAINWINDOW_H

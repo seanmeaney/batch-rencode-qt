@@ -9,6 +9,8 @@
 const static QStringList recommendedVideoCodecs = {"libx264", "nvenc_h264", "h264_qsv", "hs264_vaapi", "h264_amf", "libx265", "hevc_nvenc", "hevc_qsv", "hevc_vaapi", "hevc_amf"};
 const static QStringList recommendedAudioCodecs = {"aac", "libfdk_aac", "flac", "libopus", "ac3", "eac3"};
 
+const static QStringList searchFileExentions = {"*.mp4", "*.mkv", "*.mov", "*.avi", "*.wmv"};
+
 class Worker
 {
 
@@ -20,8 +22,9 @@ public:
     const QStringList& getAudioEncoders();
     const QStringList& getVideoEncoders();
     Codec* getCodec(const QString& name);
-
     bool startConversion(const QString & in, const QString & out, Codec* audioCodec, Codec* videoCodec);
+
+    const QStringList findVideos(const QString& path);
 
 
 private:
