@@ -36,19 +36,7 @@ void MainWindow::on_startConversion_released(){
     audioEncoder = (AudioCodec *) worker->getCodec("aac");
     vidEncoder = (VideoCodec *) worker->getCodec("libx264");
     for (const QString& vid : qAsConst(inVids)){
-        QString outVid = vid;
-        QString::iterator outI = outVid.end();
-
-        //file is already known to have an exension so looking for . is safe
-        while (outI != outVid.begin()){
-            outI--;
-            if (*outI == "."){
-                outVid.chop(1);
-                outVid.append("_rencoded.mkv");
-                break;
-            }
-            outVid.chop(1);
-        }
+        QString outVid = QFileInfo(vid).completeBaseName() + "_rencoded.mkv";
         worker->startConversion(inDir + QDir::separator() + vid, outDir + QDir::separator() + outVid, audioEncoder, vidEncoder);
     }
 }
