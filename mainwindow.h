@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "worker.h"
 #include "codec.h"
+#include "audiocodec.h"
+#include "videocodec.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,8 +22,8 @@ public:
 private:
     Ui::MainWindow *ui;
     Worker* worker;
-    Codec* vidEncoder;
-    Codec* audioEncoder;
+    VideoCodec* vidEncoder;
+    AudioCodec* audioEncoder;
 
     QString outDir;
     QString inDir;

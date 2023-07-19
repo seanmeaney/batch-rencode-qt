@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <QDir>
+#include <string>
 
 static QString ffPath = nullptr;
 
@@ -56,7 +57,12 @@ bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOf
     return false;
 }
 
-bool Worker::startConversion(const QString & in, const QString & out, Codec* audioCodec, Codec* videoCodec){
+bool Worker::startConversion(const QString & in, const QString & out, AudioCodec* audioCodec, VideoCodec* videoCodec){
+//    std::string args = "-i " + in.toStdString() + " -c:v " + videoCodec->getName().toStdString() + " -preset " + videoCodec->getPreset().toStdString() + " -crf " + std::to_string(videoCodec->getCRF()) +  " -c:a " + audioCodec->getName().toStdString() + " -b:a " + "128k" + out.toStdString();
+//    std::string args = "-i " + in.toStdString() + " -c:v " + videoCodec->getName().toStdString() + " -preset " + "medium" + " -crf " + "23" +  " -c:a " + audioCodec->getName().toStdString() + " -b:a " + "128k" + out.toStdString();
+//    QStringList temp = QStringList(QString::fromStdString(args));
+    QStringList temp = {"-y", "-i", in, "-c:v", videoCodec->getName(), "-preset", videoCodec->getPreset(), "-c:a", audioCodec->getName(), out};
+    startFFmpeg(ffPath, temp, true);
     return 0;
 }
 
@@ -82,7 +88,7 @@ const QList<Codec> Worker::parseSupportedCodecs(const QString &wallOfText){
 }
 
 bool Worker::addCodecFeatures(){
-    for (Codec c: codecs){
+    for (Codec c: qAsConst(codecs)){
         //temporary to just format the important ones
         if (recommendedAudioCodecs.contains(c.getName()) || recommendedVideoCodecs.contains(c.getName())){
             QStringList t = {"-h", QString("encoder=").append(c.getName())};

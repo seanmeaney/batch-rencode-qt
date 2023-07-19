@@ -13,21 +13,17 @@ public:
     const QString& getName() { return name; }
     int getType() { return type; }
     bool isVideoCodec();
-    bool supportsCRF();
-    bool supportsPreset();
+
 
 
     bool isAudioCodec();
 
-private:
+protected:
 
     void init();
 
     QString name;
     int type;
-
-    bool crf;
-    bool preset;
 };
 
 #endif // CODEC_H

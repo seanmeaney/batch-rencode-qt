@@ -33,6 +33,8 @@ void MainWindow::populateEncoders(){
 }
 
 void MainWindow::on_startConversion_released(){
+    audioEncoder = (AudioCodec *) worker->getCodec("aac");
+    vidEncoder = (VideoCodec *) worker->getCodec("libx264");
     for (const QString& vid : qAsConst(inVids)){
         QString outVid = vid;
         QString::iterator outI = outVid.end();
@@ -52,11 +54,11 @@ void MainWindow::on_startConversion_released(){
 }
 
 void MainWindow::on_audioEncoders_currentTextChanged(const QString &text){
-    audioEncoder = worker->getCodec(text);
+    audioEncoder = (AudioCodec *) worker->getCodec(text);
 }
 
 void MainWindow::on_videoEncoders_currentTextChanged(const QString &text){
-    vidEncoder = worker->getCodec(text);
+    vidEncoder = (VideoCodec *) worker->getCodec(text);
 }
 
 void MainWindow::on_onlyRecomended_released(){
