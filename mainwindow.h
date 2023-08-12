@@ -20,11 +20,15 @@ public:
     ~MainWindow();
 
 private:
+
+    bool findFFmpegPath();
+
     Ui::MainWindow *ui;
     Worker* worker;
     VideoCodec* vidEncoder;
     AudioCodec* audioEncoder;
 
+    QString ffPath;
     QString outDir;
     QString inDir;
     QStringList inVids;

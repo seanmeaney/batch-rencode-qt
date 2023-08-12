@@ -18,28 +18,27 @@ class Worker
 
 public:
 
-    Worker();
+    Worker(const QString& ffath_);
 
     const QList<Codec>& getCodecs() { return codecs; }
     const QStringList& getAudioEncoders();
     const QStringList& getVideoEncoders();
     Codec* getCodec(const QString& name);
     bool startConversion(const QString & in, const QString & out, AudioCodec* audioCodec, VideoCodec* videoCodec);
+    bool parseExtraCodecData(const QString& codecName, const QString& wallOfText);
+    const QList<Codec> getSupportedCodecs();
 
     const QStringList findVideos(const QString& path);
 
 
 private:
 
-    void init();
-    bool findFFmpegPath();
-    const QList<Codec> getSupportedCodecs();
     const QList<Codec> parseSupportedCodecs(const QString& wallOfText);
-    bool parseExtraCodecData(const QString& codecName, const QString& wallOfText);
     bool addCodecFeatures();
     bool startFFmpeg(const QString&, const QStringList&, bool = false);
 
     QProcess ffProcess;
+    QString ffPath;
 
     QList<Codec> codecs;
     QStringList audioEncoders;

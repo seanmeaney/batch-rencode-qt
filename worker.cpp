@@ -4,20 +4,21 @@
 #include <QDir>
 #include <string>
 
-static QString ffPath = nullptr;
+//static QString ffPath = nullptr;
 
-Worker::Worker()
+Worker::Worker(const QString& ffPath_)
 {
-    init();
+    ffPath = ffPath_;
 }
 
-void Worker::init(){
-    if (ffPath == nullptr && findFFmpegPath()){
-        codecs = getSupportedCodecs();
-    } else{
-        qDebug() << "Unable to find ffmpeg (make sure it is in path)";
-    }
-}
+//void Worker::init(){
+//    if (ffPath == nullptr && findFFmpegPath()){
+//        codecs = getSupportedCodecs();
+//    } else{
+//        qDebug() << "Unable to find ffmpeg (make sure it is in path)";
+//    }
+//}
+
 Codec* Worker::getCodec(const QString& name){
     for (Codec& c: codecs){
         if (c.getName() == name)
@@ -107,28 +108,4 @@ bool Worker::startFFmpeg(const QString& path, const QStringList& args, bool forw
     return ffProcess.waitForFinished();
 }
 
-bool Worker::findFFmpegPath(){
-    QString path(std::getenv("PATH"));
 
-    #ifdef _WIN32
-    QStringList pathSeperated = path.split(";");
-    #else
-    QStringList pathSeperated = path.split(":");
-    #endif
-
-    for (QString& s : pathSeperated){
-        #ifdef _WIN32
-        if (QDir(s).entryList().contains("ffmpeg.exe")){
-            ffPath = s;
-            ffPath.append("\ffmpeg.exe");
-        }
-        #else
-        if (QDir(s).entryList().contains("ffmpeg")){
-            ffPath = s;
-            ffPath.append("/ffmpeg");
-        }
-        #endif
-
-    }
-    return !ffPath.isNull();
-}

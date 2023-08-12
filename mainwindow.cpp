@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Batch Transcoder");
-    worker = new Worker();
+    findFFmpegPath();
+    worker = new Worker(ffPath);
+    worker->getSupportedCodecs();
+//    worker->parseExtraCodecData();
     populateEncoders();
     audioEncoder = nullptr;
     vidEncoder = nullptr;
@@ -66,6 +69,28 @@ void MainWindow::on_choosePath_released(){
 
     if (inDir != nullptr && outDir != nullptr)
         ui->startConversion->setEnabled(true);
+}
+
+bool MainWindow::findFFmpegPath(){
+    QString path(std::getenv("PATH"));
+#ifdef _WIN32
+    QStringList pathSeperated = path.split(";");
+    for (QString& s : pathSeperated){
+        if (QDir(s).entryList().contains("ffmpeg.exe")){
+            ffPath = s;
+            ffPath.append("\ffmpeg.exe");
+        }
+    }
+#else
+    QStringList pathSeperated = path.split(":");
+    for (QString& s : pathSeperated){
+        if (QDir(s).entryList().contains("ffmpeg")){
+            ffPath = s;
+            ffPath.append("/ffmpeg");
+        }
+    }
+#endif
+    return !ffPath.isNull();
 }
 
 void MainWindow::on_chooseOutPath_released(){
