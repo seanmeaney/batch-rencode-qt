@@ -42,12 +42,12 @@ private:
 
 private slots:
 
-    void on_choosePath_released();
-    void on_chooseOutPath_released();
-    void on_onlyRecomended_released();
-    void on_audioEncoders_currentTextChanged(const QString &text);
-    void on_videoEncoders_currentTextChanged(const QString &text);
-    void on_startConversion_released();
+    void updatePath();
+    void updateOutPath();
+    void showTheseEncoders();
+    void changeAudioEncoder(const QString &text);
+    void changeVideoEncoder(const QString &text);
+    void startTranscode();
 
 };
 #endif // MAINWINDOW_H

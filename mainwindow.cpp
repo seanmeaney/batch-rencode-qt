@@ -19,6 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
     populateEncoders();
     audioEncoder = nullptr;
     vidEncoder = nullptr;
+
+    connect(ui->choosePath, &QPushButton::released, this, &MainWindow::updatePath);
+    connect(ui->chooseOutPath, &QPushButton::released, this, &MainWindow::updateOutPath);
+    connect(ui->onlyRecomended, &QPushButton::released, this, &MainWindow::showTheseEncoders);
+    connect(ui->audioEncoders, SIGNAL(currentTextChanged(QString)), this, SLOT(changeAudioEncoder(const QString &)));
+    connect(ui->videoEncoders, SIGNAL(currentTextChanged(QString)), this, SLOT(changeVideoEncoder(const QString &)));
+    connect(ui->startConversion, &QPushButton::released, this, &MainWindow::startTranscode);
 }
 
 void MainWindow::populateEncoders(){
@@ -35,7 +42,7 @@ void MainWindow::populateEncoders(){
     }
 }
 
-void MainWindow::on_startConversion_released(){
+void MainWindow::startTransode(){
     audioEncoder = (AudioCodec *) worker->getCodec("aac");
     vidEncoder = (VideoCodec *) worker->getCodec("libx264");
     for (const QString& vid : qAsConst(inVids)){
@@ -44,19 +51,19 @@ void MainWindow::on_startConversion_released(){
     }
 }
 
-void MainWindow::on_audioEncoders_currentTextChanged(const QString &text){
+void MainWindow::changeAudioEncoder(const QString &text){
     audioEncoder = (AudioCodec *) worker->getCodec(text);
 }
 
-void MainWindow::on_videoEncoders_currentTextChanged(const QString &text){
+void MainWindow::changeVideoEncoder(const QString &text){
     vidEncoder = (VideoCodec *) worker->getCodec(text);
 }
 
-void MainWindow::on_onlyRecomended_released(){
+void MainWindow::showTheseEncoders(){
     populateEncoders();
 }
 
-void MainWindow::on_choosePath_released(){
+void MainWindow::updatePath(){
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
     QStringList fileNames;
@@ -93,7 +100,7 @@ bool MainWindow::findFFmpegPath(){
     return !ffPath.isNull();
 }
 
-void MainWindow::on_chooseOutPath_released(){
+void MainWindow::updateOutPath(){
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
     QStringList fileNames;
