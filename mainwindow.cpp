@@ -42,7 +42,7 @@ void MainWindow::populateEncoders(){
     }
 }
 
-void MainWindow::startTransode(){
+void MainWindow::startTranscode(){
     audioEncoder = (AudioCodec *) worker->getCodec("aac");
     vidEncoder = (VideoCodec *) worker->getCodec("libx264");
     for (const QString& vid : qAsConst(inVids)){

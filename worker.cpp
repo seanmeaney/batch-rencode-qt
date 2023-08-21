@@ -51,7 +51,7 @@ bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOf
     QStringList split = wallOfText.split("\n");
     for (QString& c : split){
         //remove leading whitespace while leaving internal whitespace
-        while (c[0] == " "){
+        while (c.length() > 0 && c[0] == " "){
             c.remove(0,1);
         }
     }

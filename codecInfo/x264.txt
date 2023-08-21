@@ -1,0 +1,4 @@
+presets: ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
+crf: -12, 51
+
+
