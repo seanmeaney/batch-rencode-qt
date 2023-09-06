@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
 #include <QFileDialog>
 #include <QPushButton>
 #include <QDebug>
@@ -20,12 +19,19 @@ MainWindow::MainWindow(QWidget *parent)
     audioEncoder = nullptr;
     vidEncoder = nullptr;
 
-    connect(ui->choosePath, &QPushButton::released, this, &MainWindow::updatePath);
-    connect(ui->chooseOutPath, &QPushButton::released, this, &MainWindow::updateOutPath);
+
     connect(ui->onlyRecomended, &QPushButton::released, this, &MainWindow::showTheseEncoders);
-    connect(ui->audioEncoders, SIGNAL(currentTextChanged(QString)), this, SLOT(changeAudioEncoder(const QString &)));
-    connect(ui->videoEncoders, SIGNAL(currentTextChanged(QString)), this, SLOT(changeVideoEncoder(const QString &)));
+    connect(ui->audioEncoders, SIGNAL(currentTextChanged(QString)), this, SLOT(changeAudioEncoder(QString)));
+    connect(ui->videoEncoders, SIGNAL(currentTextChanged(QString)), this, SLOT(changeVideoEncoder(QString)));
     connect(ui->startConversion, &QPushButton::released, this, &MainWindow::startTranscode);
+
+    connect(ui->choosePath, &QPushButton::released, this, &MainWindow::updatePath);
+    connect(ui->chooseOutPath, &QPushButton::released, this, &MainWindow::updatePath);
+//    connect(ui->choosePath, SIGNAL(clicked()), &mapper, SLOT(map()));
+//    connect(ui->chooseOutPath, SIGNAL(clicked()), &mapper, SLOT(map()));
+//    mapper.setMapping(ui->choosePath, false);
+//    mapper.setMapping(ui->chooseOutPath, true);
+//    connect(&mapper, SIGNAL(mapped(bool)),this, SLOT(updatePath(bool)));
 }
 
 void MainWindow::populateEncoders(){
@@ -63,21 +69,6 @@ void MainWindow::showTheseEncoders(){
     populateEncoders();
 }
 
-void MainWindow::updatePath(){
-    QFileDialog dialog(this);
-    dialog.setFileMode(QFileDialog::Directory);
-    QStringList fileNames;
-    if (dialog.exec())
-        fileNames = dialog.selectedFiles();
-    ui->pathToInput->setText(fileNames.first());
-    inDir = fileNames.first();
-
-    inVids = worker->findVideos(inDir);
-
-    if (inDir != nullptr && outDir != nullptr)
-        ui->startConversion->setEnabled(true);
-}
-
 bool MainWindow::findFFmpegPath(){
     QString path(std::getenv("PATH"));
 #ifdef _WIN32
@@ -100,14 +91,21 @@ bool MainWindow::findFFmpegPath(){
     return !ffPath.isNull();
 }
 
-void MainWindow::updateOutPath(){
+void MainWindow::updatePath(){
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
     QStringList fileNames;
     if (dialog.exec())
         fileNames = dialog.selectedFiles();
-    ui->pathToOutput->setText(fileNames.first());
-    outDir = fileNames.first();
+    ui->pathToInput->setText(fileNames.first());
+
+    if (sender() == ui->choosePath){
+        inDir = fileNames.first();
+        inVids = worker->findVideos(inDir);
+    } else{
+        outDir = fileNames.first();
+    }
+
     if (inDir != nullptr && outDir != nullptr)
         ui->startConversion->setEnabled(true);
 }

@@ -62,6 +62,7 @@ bool Worker::startConversion(const QString & in, const QString & out, AudioCodec
 //    std::string args = "-i " + in.toStdString() + " -c:v " + videoCodec->getName().toStdString() + " -preset " + videoCodec->getPreset().toStdString() + " -crf " + std::to_string(videoCodec->getCRF()) +  " -c:a " + audioCodec->getName().toStdString() + " -b:a " + "128k" + out.toStdString();
 //    std::string args = "-i " + in.toStdString() + " -c:v " + videoCodec->getName().toStdString() + " -preset " + "medium" + " -crf " + "23" +  " -c:a " + audioCodec->getName().toStdString() + " -b:a " + "128k" + out.toStdString();
 //    QStringList temp = QStringList(QString::fromStdString(args));
+//    QStringList temp = {"-y", "-i", in, "-c:v", videoCodec->getName(), "-preset", videoCodec->getPreset(), "-c:a", audioCodec->getName(), "-c:b", audioCodec->getBitrate(), out};
     QStringList temp = {"-y", "-i", in, "-c:v", videoCodec->getName(), "-preset", videoCodec->getPreset(), "-c:a", audioCodec->getName(), out};
     startFFmpeg(ffPath, temp, true);
     return 0;

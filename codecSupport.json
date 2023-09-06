@@ -1,0 +1,19 @@
+{
+"audioCodecs":[
+	{"codecName" : "aac", "sampleRates": ["96000", "88200", "64000", "48000", "44100, "32000", "24000", "22050", "16000", "12000", "11025", "8000", "7350"],"maxBitrate": "576"},
+	{"codecName" : "aac", "sampleRates": ["48000", "44100", "32000"],"maxBitrate": "640"},
+	{"codecName" : "eaac", "sampleRates": ["48000", "44100", "32000"],"maxBitrate": "6144"},
+	{"codecName" : "flac", "sampleRates": ["48000", "44100", "32000"],"maxBitrate": "-1"},
+	{"codecName" : "libopus", "sampleRates": ["48000", "24000", "16000", "12000", "8000"],"maxBitrate": "-1"}
+],
+"videoCodecs":[
+	{"codecName" : "libx264", "presets" : ["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow", "placebo"], "crf: : ["-1","FLT_MAX"]},
+	{"codecName" : "libx265", "presets" : ["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow", "placebo"], "crf: : ["-1","FLT_MAX"]},
+	{"codecName" : "nvenc_h264", "presets" : ["default", "slow", "medium", "fast", "hp", "hq", "bd", "ll", "llhq", "llhp", "lossless", "losslesshp", "p1", "p2", "p3", "p4", "p5", "p6", "p7"], "crf: : ["-1","-1"]},
+	{"codecName" : "nvenc_hevc", "presets" : ["default", "slow", "medium", "fast", "hp", "hq", "bd", "ll", "llhq", "llhp", "lossless", "losslesshp", "p1", "p2", "p3", "p4", "p5", "p6", "p7"], "crf: : ["-1","-1"]},
+	{"codecName" : "h264_qsv", "presets" : ["veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow"], "crf: : ["-1"," -1"]},
+	{"codecName" : "hevc_qsv", "presets" : ["veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow"], "crf: : ["-1"," -1"]},
+
+
+]
+}

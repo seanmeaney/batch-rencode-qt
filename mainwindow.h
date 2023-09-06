@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSignalMapper>
 #include "worker.h"
 #include "codec.h"
 #include "audiocodec.h"
@@ -32,18 +33,13 @@ private:
     QString outDir;
     QString inDir;
     QStringList inVids;
-//    QString crf;
-//    QString audioBitrate;
-//    QString preset;
-//    bool fastStart;
-//    bool overwriteVids;
+    QSignalMapper mapper;
 
     void populateEncoders();
 
 private slots:
 
     void updatePath();
-    void updateOutPath();
     void showTheseEncoders();
     void changeAudioEncoder(const QString &text);
     void changeVideoEncoder(const QString &text);
