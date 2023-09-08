@@ -4,6 +4,9 @@
 #include <QFileDialog>
 #include <QPushButton>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,10 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     findFFmpegPath();
     worker = new Worker(ffPath);
     worker->getSupportedCodecs();
-//    worker->parseExtraCodecData();
     populateEncoders();
     audioEncoder = nullptr;
     vidEncoder = nullptr;
+    readCodecSupport();
 
 
     connect(ui->onlyRecomended, &QPushButton::released, this, &MainWindow::showTheseEncoders);
@@ -27,11 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->choosePath, &QPushButton::released, this, &MainWindow::updatePath);
     connect(ui->chooseOutPath, &QPushButton::released, this, &MainWindow::updatePath);
-//    connect(ui->choosePath, SIGNAL(clicked()), &mapper, SLOT(map()));
-//    connect(ui->chooseOutPath, SIGNAL(clicked()), &mapper, SLOT(map()));
-//    mapper.setMapping(ui->choosePath, false);
-//    mapper.setMapping(ui->chooseOutPath, true);
-//    connect(&mapper, SIGNAL(mapped(bool)),this, SLOT(updatePath(bool)));
+}
+
+QJsonDocument MainWindow::readCodecSupport(){
+    QFile file("/home/sean/batch-rencode-qt/codecSupport.json"); //change this
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray rawData = file.readAll();
+    file.close();
+    QJsonDocument d = QJsonDocument::fromJson(rawData);
+    QJsonObject object = d.object();
+    QJsonArray audioSupport = object.value(QString("audioCodecs")).toArray();
+    QJsonArray videoSupport = object.value(QString("videoCodecs")).toArray();
+    return d;
 }
 
 void MainWindow::populateEncoders(){

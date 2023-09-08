@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSignalMapper>
 #include "worker.h"
 #include "codec.h"
 #include "audiocodec.h"
@@ -20,6 +19,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QJsonDocument readCodecSupport();
+
 private:
 
     bool findFFmpegPath();
@@ -33,7 +34,6 @@ private:
     QString outDir;
     QString inDir;
     QStringList inVids;
-    QSignalMapper mapper;
 
     void populateEncoders();
 

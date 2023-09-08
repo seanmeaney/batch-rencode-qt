@@ -11,14 +11,6 @@ Worker::Worker(const QString& ffPath_)
     ffPath = ffPath_;
 }
 
-//void Worker::init(){
-//    if (ffPath == nullptr && findFFmpegPath()){
-//        codecs = getSupportedCodecs();
-//    } else{
-//        qDebug() << "Unable to find ffmpeg (make sure it is in path)";
-//    }
-//}
-
 Codec* Worker::getCodec(const QString& name){
     for (Codec& c: codecs){
         if (c.getName() == name)
@@ -45,7 +37,6 @@ const QStringList Worker::findVideos(const QString& path){
     dir.setNameFilters(searchFileExentions);
     return dir.entryList();
 }
-
 
 bool Worker::parseExtraCodecData(const QString& codecName, const QString& wallOfText){
     QStringList split = wallOfText.split("\n");
